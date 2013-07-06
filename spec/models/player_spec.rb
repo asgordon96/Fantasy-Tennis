@@ -23,4 +23,22 @@ describe Player do
     end
   end
   
+  it "gets the year-do-date ATP points for the top 100" do
+    Player.get_rankings
+    Player.get_ytd_points(100)
+    nadal = Player.find_by_link_name("/Tennis/Players/Top-Players/Rafael-Nadal.aspx")
+    nadal.atp_points.should == 7000
+    robredo = Player.find_by_link_name("/Tennis/Players/Top-Players/Tommy-Robredo.aspx")
+    robredo.atp_points.should == 975
+  end
+    
+  it "gets ytd ATP points for 101-200" do
+      Player.get_rankings
+      Player.get_ytd_points(200)
+      hewitt = Player.find_by_link_name('/Tennis/Players/Top-Players/Lleyton-Hewitt.aspx')
+      hewitt.atp_points.should == 265
+      schepper = Player.find_by_link_name('/Tennis/Players/De/K/Kenny-De-Schepper.aspx')
+      schepper.atp_points.should == 276
+  end
+  
 end
