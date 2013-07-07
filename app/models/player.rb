@@ -2,6 +2,32 @@ require 'nokogiri'
 require 'open-uri'
 
 class Player < ActiveRecord::Base
+  has_and_belongs_to_many :teams
+  
+  # initialize all the top 100 players with stats
+  def self.init_players
+    Player.get_rankings
+    Player.get_ytd_points(100)
+    Player.get_ytd_points(200)
+    all_players = Player.all
+    all_players.each do |player|
+      player.get_stats
+      if not player.atp_points
+        player.atp_points = 0
+      end
+      player.save
+    end
+  end
+  
+  # update the players stats, and get the new top 100
+  def self.update_players
+    Player.update_rankings
+    Player.all.each do |player|
+      player.get_stats
+    end
+    Player.get_ytd_points(100)
+    Player.get_ytd_points(200)
+  end
   
   # get the year-to-date points for the top 100
   def self.get_ytd_points(ranks)
@@ -50,6 +76,34 @@ class Player < ActiveRecord::Base
     players 
   end
   
+  # update the top 100
+  def self.update_rankings
+    url = "http://m.atpworldtour.com/Rankings/Singles.aspx"
+    page = Nokogiri::HTML(open(url))
+    player_links = page.css(".playerName").css("a")
+    links = player_links.map do |link|
+      link["href"]
+    end
+    
+    # remove players no longer in the top 100
+    Player.all.each do |player|
+      if not links.include?(player.link_name)
+        player.destroy
+      end
+    end
+    
+    # add new players in the top 100
+    old_links = Player.all.map { |p| p.link_name }
+    links.each do |link|
+      if not old_links.include?(link)
+        new_player = Player.new
+        new_player.link_name = link
+        new_player.save
+      end
+    end
+    
+  end
+  
   # for the Player, get wins, losses, and rank from the ATP website
   def get_stats
     player_url = "http://m.atpworldtour.com#{self.link_name}"
@@ -69,4 +123,16 @@ class Player < ActiveRecord::Base
     self.losses = season_losses
     self.save
   end
+  
+  # get the ATP points and add the total to teams
+  def update_atp_points(points)
+    old_points = self.atp_points
+    diff = points - old_points
+    self.atp_points = points
+    self.save
+    self.teams.each do |team|
+      team.add_points(diff)
+    end
+  end
+  
 end
