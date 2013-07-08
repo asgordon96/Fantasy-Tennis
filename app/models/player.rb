@@ -16,6 +16,7 @@ class Player < ActiveRecord::Base
         player.atp_points = 0
       end
       player.save
+      puts "Loaded #{player.name}"
     end
   end
   
@@ -67,13 +68,14 @@ class Player < ActiveRecord::Base
     url = "http://m.atpworldtour.com/Rankings/Singles.aspx"
     page = Nokogiri::HTML(open(url))
     player_links = page.css(".playerName").css("a")
-    players = player_links.map do |link|
+    player_countries = page.css(".playerNameNat").map { |el| el.text.delete('()') }
+    player_links.each_with_index do |link, index|
       new_player = Player.new
       new_player.link_name = link["href"]
+      new_player.country = player_countries[index]
       new_player.save
       new_player
     end
-    players 
   end
   
   # update the top 100
@@ -81,6 +83,7 @@ class Player < ActiveRecord::Base
     url = "http://m.atpworldtour.com/Rankings/Singles.aspx"
     page = Nokogiri::HTML(open(url))
     player_links = page.css(".playerName").css("a")
+    player_countries = page.css(".playerNameNat").map { |el| el.text.delete('()') }
     links = player_links.map do |link|
       link["href"]
     end
@@ -94,10 +97,11 @@ class Player < ActiveRecord::Base
     
     # add new players in the top 100
     old_links = Player.all.map { |p| p.link_name }
-    links.each do |link|
+    links.each_with_index do |link, index|
       if not old_links.include?(link)
         new_player = Player.new
         new_player.link_name = link
+        new_player.country = player_countries[index]
         new_player.save
       end
     end

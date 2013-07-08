@@ -1,6 +1,8 @@
 class Team < ActiveRecord::Base
   has_and_belongs_to_many :players
   
+  validates :name, :presence => true
+  
   def add_points(points)
     self.total_points += points
     self.save

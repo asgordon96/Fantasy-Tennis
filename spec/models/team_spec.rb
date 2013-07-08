@@ -14,4 +14,11 @@ describe Team do
     @team.total_points.should == 10
   end
   
+  it "is not valid without name" do
+    @team.name = ""
+    @team.valid?.should == false
+    @team.name = nil
+    @team.valid?.should == false
+  end
+    
 end
