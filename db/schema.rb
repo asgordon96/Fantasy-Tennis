@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130708042138) do
+ActiveRecord::Schema.define(version: 20130709014448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "leagues", force: true do |t|
+    t.string   "name"
+    t.datetime "draft_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "players", force: true do |t|
     t.integer  "rank"
@@ -38,6 +45,7 @@ ActiveRecord::Schema.define(version: 20130708042138) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "total_points"
+    t.integer  "league_id"
   end
 
 end
