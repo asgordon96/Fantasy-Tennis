@@ -8,6 +8,13 @@
 </head>
 <body>
 
+<% flash.each do |name, msg| %>
+  <div class="alert center <%= name %>">
+    <a class="close" data-dismiss="alert">&times;</a>
+    <%= msg %>
+  </div>
+<% end %>
+
 <%= yield %>
 
 </body>
