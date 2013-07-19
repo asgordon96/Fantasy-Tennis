@@ -37,8 +37,6 @@ describe Player do
       Player.get_rankings
       Player.get_ytd_points(100)
       Player.get_ytd_points(200)
-      hewitt = Player.find_by_link_name('/Tennis/Players/Top-Players/Lleyton-Hewitt.aspx')
-      hewitt.atp_points.should == 310
       schepper = Player.find_by_link_name('/Tennis/Players/De/K/Kenny-De-Schepper.aspx')
       schepper.atp_points.should == 456
   end
