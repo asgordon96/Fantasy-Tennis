@@ -1,4 +1,7 @@
 class TeamsController < ApplicationController
+  
+  before_filter :require_login
+  
   def show
     @team = Team.find(params[:id])
     @players = @team.players
@@ -12,4 +15,5 @@ class TeamsController < ApplicationController
   
   def destroy
   end
+  
 end
