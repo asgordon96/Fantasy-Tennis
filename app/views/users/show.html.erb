@@ -5,4 +5,12 @@
 <div class="centered", style="clear: right;">
   <a class="btn">Join a League</a>
   <a class="btn">Create a New League</a>
+  
+  <h3>My Teams</h3>
+  <table>
+  <% @user.teams.each do |team| %>
+    <tr>
+      <td><%= team.name %></td>
+    </tr>
+  <% end %>
 </div>

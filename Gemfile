@@ -42,6 +42,7 @@ group :doc do
 end
 
 group :development, :test do
+  gem 'guard-livereload'
   gem 'rspec-rails'
 end
 

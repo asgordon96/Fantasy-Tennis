@@ -1,0 +1,18 @@
+<div class="middle">
+  <div>
+    <h1><%= @team.name %></h1>
+    <h3><%= @team.league.name %></h3>
+    <h4>4th Place</h4>
+    <h4><%= @team.total_points %> Points</h4>
+  </div>
+  
+  <div>
+    <%= link_to "View Standings", "", :class => "btn" %>
+    <%= link_to "League Info", "", :class => "btn" %>
+  </div>
+  
+  <div>
+    <%= link_to "Add Player", "", :class => "btn btn-success" %>
+    <%= link_to "Drop Player", "", :class => "btn btn-danger"%>
+  </div>
+</div>
