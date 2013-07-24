@@ -139,4 +139,8 @@ class Player < ActiveRecord::Base
     end
   end
   
+  def full_link
+    "http://www.atpworldtour.com#{self.link_name}"
+  end
+  
 end

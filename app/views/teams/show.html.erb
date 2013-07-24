@@ -15,4 +15,25 @@
     <%= link_to "Add Player", "", :class => "btn btn-success" %>
     <%= link_to "Drop Player", "", :class => "btn btn-danger"%>
   </div>
+  
+  <div>
+    <h2>Players</h2>
+    <table class="table">
+      <thead>
+        <tr><th>Name</th><th>Country</th><th>Ranking</th><th>Year ATP Points</th><th>Win-Loss</th></tr>
+      </thead>
+      <tbody>
+        <% @players.each do |player| %>
+          <tr>
+            <td><%= link_to player.name, player.full_link, :target => "_blank" %></td>
+            <td><%= player.country %></td>
+            <td><%= player.rank %></td>
+            <td><%= player.atp_points %></td>
+            <td><%= player.wins %> - <%= player.losses %></td>
+          </tr>
+        <% end %>
+      
+    </table>
+  </div>
+  
 </div>
