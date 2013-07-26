@@ -19,7 +19,7 @@ class Player < ActiveRecord::Base
       puts "Loaded #{player.name}"
     end
   end
-  
+
   # update the players stats, and get the new top 100
   def self.update_players
     Player.update_rankings
@@ -28,6 +28,22 @@ class Player < ActiveRecord::Base
     end
     Player.get_ytd_points(100)
     Player.get_ytd_points(200)
+  end
+  
+  # get the stats for all of the top 100 (using threads)
+  def self.all_player_stats
+    threads = []
+    Player.all.each do |player|
+      threads << Thread.new do
+        Thread.current[:content] = open("http://m.atpworldtour.com#{player.link_name}") { |x| x.read }
+        Thread.current[:player_id] = player.id
+      end
+    end
+    threads.map do |t|
+      t.join
+      player = Player.find(t[:player_id])
+      player.get_stats(t[:content])
+    end
   end
   
   # get the year-to-date points for the top 100
@@ -109,9 +125,9 @@ class Player < ActiveRecord::Base
   end
   
   # for the Player, get wins, losses, and rank from the ATP website
-  def get_stats
-    player_url = "http://m.atpworldtour.com#{self.link_name}"
-    player_html = Nokogiri::HTML(open(player_url))
+  def get_stats(html_page)
+    #player_url = "http://m.atpworldtour.com#{self.link_name}"
+    player_html = Nokogiri::HTML(html_page)
     
     player_name = player_html.css(".playerDetailsName")[0].css("strong").text
     
