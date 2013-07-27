@@ -6,5 +6,6 @@ FantasyTennis::Application.routes.draw do
   match '/' => 'home#index', :via => :get
   resources :users, :only => [:new, :create, :update, :destroy, :show]
   resources :teams, :only => [:show, :create, :update, :destroy]
+  resources :leagues, :only => [:new, :create, :index, :show, :destroy]
 
 end

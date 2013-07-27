@@ -1,0 +1,28 @@
+<div class="centered">
+  <h2>Create a New League</h2>
+  <%= form_for @league do |f| %>
+    <table class="center">
+      <tbody>
+        <tr>
+          <td><%= f.label :name, "League Name" %></td><td><%= f.text_field :name %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :num_teams, "Number of Teams"%></td><td><%= f.number_field :num_teams, :min => 2, :max => 10 %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :players_per_team %></td>
+          <td><%= f.number_field :players_per_team, :min => 3, :max => 12 %></td>
+        </tr>
+        <tr>
+          <td><%= label_tag :draft_day, "Draft Day" %></td>
+          <td><%= date_field_tag :draft_day %></td>
+        </tr>
+        <tr>
+          <td><%= label_tag :draft_time, "Draft Time" %></td>
+          <td><%= time_field_tag :draft_time %></td>
+        </tr>
+      </tbody>
+    </table>
+    <%= f.submit "Create League", :class => "btn btn-primary" %>
+  <% end %>
+</div>
