@@ -5,7 +5,9 @@ FantasyTennis::Application.routes.draw do
   post "sessions/create"
   match '/' => 'home#index', :via => :get
   resources :users, :only => [:new, :create, :update, :destroy, :show]
-  resources :teams, :only => [:show, :create, :update, :destroy]
-  resources :leagues, :only => [:new, :create, :index, :show, :destroy]
+  
+  resources :leagues, :only => [:new, :create, :index, :show, :destroy] do
+    resources :teams, :only => [:show, :new, :create, :update, :destroy]
+  end
 
 end

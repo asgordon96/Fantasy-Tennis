@@ -4,22 +4,22 @@
     <table class="center">
       <tbody>
         <tr>
-          <td><%= f.label :name, "League Name" %></td><td><%= f.text_field :name %></td>
+          <td><%= f.label :name, "League Name" %></td><td><%= f.text_field :name, :required => "" %></td>
         </tr>
         <tr>
-          <td><%= f.label :num_teams, "Number of Teams"%></td><td><%= f.number_field :num_teams, :min => 2, :max => 10 %></td>
+          <td><%= f.label :num_teams, "Number of Teams"%></td><td><%= f.number_field :num_teams, :min => 2, :max => 10, :required => "" %></td>
         </tr>
         <tr>
           <td><%= f.label :players_per_team %></td>
-          <td><%= f.number_field :players_per_team, :min => 3, :max => 12 %></td>
+          <td><%= f.number_field :players_per_team, :min => 3, :max => 12, :required => "" %></td>
         </tr>
         <tr>
           <td><%= label_tag :draft_day, "Draft Day" %></td>
-          <td><%= date_field_tag :draft_day %></td>
+          <td><%= date_field_tag :draft_day, nil, :required => "" %></td>
         </tr>
         <tr>
-          <td><%= label_tag :draft_time, "Draft Time" %></td>
-          <td><%= time_field_tag :draft_time %></td>
+          <td><%= label_tag :draft_time, "Draft Time (US Pacific Time)" %></td>
+          <td><%= time_field_tag :draft_time, nil, :required => "" %></td>
         </tr>
       </tbody>
     </table>

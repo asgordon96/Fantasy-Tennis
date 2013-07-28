@@ -3,14 +3,14 @@
 </div>
 
 <div class="centered", style="clear: right;">
-  <a class="btn">Join a League</a>
+  <%= link_to "Join a League", leagues_path, :class => "btn" %>
   <%= link_to "Create a New League", new_league_path, :class => "btn" %>
   
   <h3>My Teams</h3>
   <table>
   <% @user.teams.each do |team| %>
     <tr>
-      <td><%= link_to team.name, team_path(team.id) %></td>
+      <td><%= link_to team.name, league_team_path(team.league, team) %></td>
     </tr>
   <% end %>
 </div>

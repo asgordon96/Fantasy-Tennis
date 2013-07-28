@@ -9,19 +9,23 @@ class LeaguesController < ApplicationController
     league = League.new
     day = params[:draft_day]
     time = params[:draft_time]
-    puts day
-    puts time
     
-    league.update_attributes(params[:league])
+    league.assign_attributes(params[:league])
     league.set_draft_time(day, time)
-    puts league.inspect
-    league.save
+
+    begin
+      league.save!
+    rescue => error
+      flash[:"alert-error"] = error.message
+      redirect_to new_league_path
+    end
   end
 
   def destroy
   end
 
   def index
+    @all_leagues = League.all
   end
 
   def show

@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     if session[:user_id]
       @user = User.find(session[:user_id])
     else
-      redirect_to "/"
+      redirect_to sessions_signin_path
     end
   end
   

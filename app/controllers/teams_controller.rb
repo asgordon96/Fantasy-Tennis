@@ -2,6 +2,9 @@ class TeamsController < ApplicationController
   
   before_filter :require_login
   
+  def new
+  end
+  
   def show
     @team = Team.find(params[:id])
     @players = @team.players
