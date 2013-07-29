@@ -9,7 +9,11 @@
   </div>
   
   <div>
+  <% if !@league.has_user?(current_user) %>
     <a href="#joinModal" class="btn btn-primary" data-toggle="modal">Join this League</a>
+  <% else %>
+  <%= link_to "My Team", league_team_path(@league, @league.has_user?(current_user)), :class => "btn btn-primary"%>
+  <% end %>
   </div>
   
   <div>
@@ -45,7 +49,7 @@
       <table>
         <tr>
           <td><%= label_tag :name, "Team Name" %></td>
-          <td><%= text_field_tag :name %></td>
+          <td><%= text_field_tag :name, nil, :required => "" %></td>
         </tr>
       </table>
       <%= submit_tag "Create Team", :class => "btn btn-primary" %>
