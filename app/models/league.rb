@@ -7,6 +7,10 @@ class League < ActiveRecord::Base
     self.draft_time = "#{date} #{time}"
   end
   
+  def get_standings
+    self.teams.order("total_points DESC")
+  end
+  
   # make sure the draft date is in the future
   def future_draft_date
     if self.draft_time.past?
