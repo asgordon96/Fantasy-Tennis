@@ -1,0 +1,13 @@
+<div class="container" style="padding: 0px;">
+  <div class="navbar " style="padding: 0px;">
+    <div class="navbar-inner">
+      <%= link_to "Fantasy Tennis", '/', :class => "brand" %>
+      <ul class="nav">
+        <li><%= link_to "Home", '/' %></li>
+        <% if current_user.present? %>
+          <li><%= link_to "Logout", sessions_signout_path, :method => :post %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
