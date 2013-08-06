@@ -45,6 +45,8 @@ group :development, :test do
   gem 'pry-rails'
   gem 'guard-rspec'
   gem 'rspec-rails'
+  gem 'reek', :require => false
+  gem 'flog', :require => false
 end
 
 # Use ActiveModel has_secure_password

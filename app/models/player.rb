@@ -33,16 +33,17 @@ class Player < ActiveRecord::Base
   # get the stats for all of the top 100 (using threads)
   def self.all_player_stats
     threads = []
-    Player.all.each do |player|
+    Player.find_each do |player|
       threads << Thread.new do
-        Thread.current[:content] = open("http://m.atpworldtour.com#{player.link_name}") { |x| x.read }
-        Thread.current[:player_id] = player.id
+        this_thread = Thread.current
+        this_thread[:content] = open("http://m.atpworldtour.com#{player.link_name}") { |page| page.read }
+        this_thread[:player_id] = player.id
       end
     end
-    threads.map do |t|
-      t.join
-      player = Player.find(t[:player_id])
-      player.get_stats(t[:content])
+    threads.map do |thread|
+      thread.join
+      player = Player.find(thread[:player_id])
+      player.get_stats(thread[:content])
     end
   end
   
@@ -105,14 +106,14 @@ class Player < ActiveRecord::Base
     end
     
     # remove players no longer in the top 100
-    Player.all.each do |player|
+    Player.find_each do |player|
       if not links.include?(player.link_name)
         player.destroy
       end
     end
     
     # add new players in the top 100
-    old_links = Player.all.map { |p| p.link_name }
+    old_links = Player.all.map { |player| player.link_name }
     links.each_with_index do |link, index|
       if not old_links.include?(link)
         new_player = Player.new
@@ -133,9 +134,9 @@ class Player < ActiveRecord::Base
     
     table = player_html.css(".psdCurrent")[0]
     current_rank = Integer(table.css(".psdrRank")[0].text)
-    win_loss = table.css(".psdWL")[0].text
-    season_wins = Integer(win_loss.split('-')[0])
-    season_losses = Integer(win_loss.split('-')[1])
+    win_loss = table.css(".psdWL")[0].text.split('-')
+    season_wins = Integer(win_loss[0])
+    season_losses = Integer(win_loss[1])
     
     self.name = player_name
     self.rank = current_rank
