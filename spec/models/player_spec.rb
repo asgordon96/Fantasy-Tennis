@@ -6,7 +6,7 @@ describe Player do
     player = Player.new
     player.link_name = '/Tennis/Players/Top-Players/Jo-Wilfried-Tsonga.aspx'
     player.save
-    player.get_stats
+    player.get_stats(File.read('spec/assets/tsonga.html'))
     
     player.rank.should == 8
     player.wins.should == 30
@@ -30,7 +30,7 @@ describe Player do
     nadal = Player.find_by_link_name("/Tennis/Players/Top-Players/Rafael-Nadal.aspx")
     nadal.atp_points.should == 7010
     robredo = Player.find_by_link_name("/Tennis/Players/Top-Players/Tommy-Robredo.aspx")
-    robredo.atp_points.should == 1065
+    robredo.atp_points.should == 1315
   end
     
   it "gets ytd ATP points for 101-200" do
