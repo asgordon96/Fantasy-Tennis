@@ -9,23 +9,13 @@ class Player < ActiveRecord::Base
     Player.get_rankings
     Player.get_ytd_points(100)
     Player.get_ytd_points(200)
-    all_players = Player.all
-    all_players.each do |player|
-      player.get_stats
-      if not player.atp_points
-        player.atp_points = 0
-      end
-      player.save
-      puts "Loaded #{player.name}"
-    end
+    Player.all_player_stats
   end
 
   # update the players stats, and get the new top 100
   def self.update_players
     Player.update_rankings
-    Player.all.each do |player|
-      player.get_stats
-    end
+    Player.all_player_stats
     Player.get_ytd_points(100)
     Player.get_ytd_points(200)
   end
