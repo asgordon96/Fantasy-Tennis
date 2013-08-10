@@ -8,6 +8,7 @@ FantasyTennis::Application.routes.draw do
   
   resources :leagues, :only => [:new, :create, :index, :show, :destroy] do
     resources :teams, :only => [:show, :new, :create, :update, :destroy]
+    resources :drafts, :only => :show
   end
 
 end

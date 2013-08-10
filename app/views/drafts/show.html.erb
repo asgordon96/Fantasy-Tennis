@@ -1,0 +1,40 @@
+<div class="middle">
+  <div>
+    <h2>Current Player</h2>
+    <table>
+      <tr>
+        <td><h3>Novak Djokovic</h3></td>
+        <td><h3>$53</h3></td>
+        <td><h4>From Some Team</h4></td>
+      </tr>
+    </table>
+    
+
+    $ <input type="number" style="width: 100px;" min="0"/><br/>
+    <button class="btn btn-large btn-primary">Bid Now</button>
+  </div>
+  
+  <div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Player Name</th>
+          <th>Country</th>
+          <th>Ranking</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <% @available.each do |player| %>
+        <tr>
+          <td><%= player.name %></td>
+          <td><%= player.country %></td>
+          <td><%= player.rank %></td>
+          <td><a href="">Nominate</a></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
+</div>
