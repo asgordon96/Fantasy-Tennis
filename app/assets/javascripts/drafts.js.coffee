@@ -20,6 +20,8 @@ ready = ->
     if message.type == 'nominate'
       viewModel.current_player(message.player)
       viewModel.bid(1)
+    else if message.type = 'bid'
+      viewModel.bid(message.bid)
   )
 
   $("a.nominate").click( (event) ->
@@ -36,7 +38,11 @@ ready = ->
   $("#bid").click( (event) ->
     event.preventDefault()
     bid = $("input").val()
-    viewModel.bid(bid)
+    data = 
+      type: 'bid'
+      bid: bid
+      
+    client.publish("/draft#{league_id}", data)
   )
 
 $ -> ready()
