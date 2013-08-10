@@ -3,15 +3,15 @@
     <h2>Current Player</h2>
     <table>
       <tr>
-        <td><h3>Novak Djokovic</h3></td>
-        <td><h3>$53</h3></td>
-        <td><h4>From Some Team</h4></td>
+        <td><h3 data-bind="text: current_player"></h3></td>
+        <td><h3 data-bind="text: current_bid"></h3></td>
+        <td><h4 data-bind="text: current_team"></h4></td>
       </tr>
     </table>
     
 
-    $ <input type="number" style="width: 100px;" min="0"/><br/>
-    <button class="btn btn-large btn-primary">Bid Now</button>
+    $ <input type="number" style="width: 100px;" min="0" data-bind="value: start_bid"/><br/>
+    <button id="bid" class="btn btn-large btn-primary">Bid Now</button>
   </div>
   
   <div>
@@ -30,7 +30,7 @@
           <td><%= player.name %></td>
           <td><%= player.country %></td>
           <td><%= player.rank %></td>
-          <td><a href="">Nominate</a></td>
+          <td><a href="" class="nominate">Nominate</a></td>
         </tr>
         <% end %>
       </tbody>
