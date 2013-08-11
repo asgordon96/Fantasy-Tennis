@@ -122,9 +122,17 @@ class Player < ActiveRecord::Base
     
     player_name = player_html.css(".playerDetailsName")[0].css("strong").text
     
-    table = player_html.css(".psdCurrent")[0]
-    current_rank = Integer(table.css(".psdrRank")[0].text)
-    win_loss = table.css(".psdWL")[0].text.split('-')
+    table = player_html.css(".psdCurrent")
+    
+    # check which table is singles stats
+    singles_table = table.select do |t|
+      title = t.ancestors[3].previous_sibling.text
+      title.downcase.include? "singles"
+    end
+    
+    singles_table = singles_table[0]
+    current_rank = Integer(singles_table.css(".psdrRank")[0].text)
+    win_loss = singles_table.css(".psdWL")[0].text.split('-')
     season_wins = Integer(win_loss[0])
     season_losses = Integer(win_loss[1])
     

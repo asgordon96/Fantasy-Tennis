@@ -27,7 +27,7 @@
       <tbody>
         <% @available.each do |player| %>
         <tr>
-          <td><%= player.name %></td>
+          <td><%= link_to player.name, 'http://www.atpworldtour.com' + player.link_name, :target => "_blank" %></td>
           <td><%= player.country %></td>
           <td><%= player.rank %></td>
           <td><a href="" class="nominate">Nominate</a></td>

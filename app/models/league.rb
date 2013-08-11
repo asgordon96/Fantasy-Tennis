@@ -39,7 +39,7 @@ class League < ActiveRecord::Base
   def available_players
     owned_player_ids = self.teams.map { |team| team.players.pluck(:id) }.flatten
     if owned_player_ids.blank?
-      Player.all
+      Player.all.order("rank")
     else
       Player.where("id NOT IN (?)", owned_player_ids).order("rank")
     end
