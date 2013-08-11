@@ -14,8 +14,8 @@
     <button id="bid" class="btn btn-large btn-primary">Bid Now</button>
   </div>
   
-  <div>
-    <table class="table">
+  <div class="column scrollbar">
+    <table class="table-hover table">
       <thead>
         <tr>
           <th>Player Name</th>
@@ -32,6 +32,24 @@
           <td><%= player.rank %></td>
           <td><a href="" class="nominate">Nominate</a></td>
         </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="column">
+    <h3>My Team</h3>
+    <table class="table table-hover table-bordered" style="width: 200px;">
+      <tbody>
+        <% for index in 0..@league.players_per_team-1 %>
+          <tr>
+            <% player = @team.players[index] %>
+            <% if player %>
+              <td><%= player.name %>  (<%= player.country %>)</td>
+            <% else %>
+              <td></td>
+            <% end %>
+          </tr>
         <% end %>
       </tbody>
     </table>

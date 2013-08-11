@@ -38,6 +38,15 @@ class League < ActiveRecord::Base
   # return players not on any teams
   def available_players
     owned_player_ids = self.teams.map { |team| team.players.pluck(:id) }.flatten
-    Player.where("id NOT IN (?)", owned_player_ids).order("rank")
-  end  
+    if owned_player_ids.blank?
+      Player.all
+    else
+      Player.where("id NOT IN (?)", owned_player_ids).order("rank")
+    end
+  end
+  
+  def team_for_user(user)
+    Team.where(:user_id => user.id, :league_id => self.id).first
+  end
+    
 end
