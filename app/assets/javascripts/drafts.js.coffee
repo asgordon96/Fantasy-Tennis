@@ -16,6 +16,11 @@ ready = ->
       
       @seconds = ko.observable(10)
       @seconds_format = ko.computed ( -> "Time: #{@seconds()}"), this
+      
+      @timer_end = ko.computed ( ->
+        if @seconds() == 0
+          clearInterval(timer)
+      ), this
   
   viewModel = new DraftViewModel()
   ko.applyBindings(viewModel)
