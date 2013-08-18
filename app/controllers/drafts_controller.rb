@@ -12,6 +12,15 @@ class DraftsController < ApplicationController
     render :json => {}
   end
   
+  def myteam
+    render :partial => 'team'
+  end
+  
+  def available
+    @available = @league.available_players
+    render :partial => 'available'
+  end
+  
   def require_team
     @league = League.find(params[:league_id])
     @team = @league.team_for_user(@user)

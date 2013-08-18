@@ -48,15 +48,8 @@
         </tr>
       </thead>
       
-      <tbody>
-        <% @available.each do |player| %>
-        <tr>
-          <td><%= link_to player.name, 'http://www.atpworldtour.com' + player.link_name, :target => "_blank" %></td>
-          <td><%= player.country %></td>
-          <td><%= player.rank %></td>
-          <td><a href="" class="nominate">Nominate</a></td>
-        </tr>
-        <% end %>
+      <tbody id="available">
+        <%= render 'available' %>
       </tbody>
     </table>
   </div>
@@ -66,20 +59,10 @@
     
     <h4>My Team</h4>
     <h3 id="team_name"><%= @team.name %></h3>
-    <table class="table table-hover table-bordered" style="width: 200px;">
-      <tbody>
-        <% for index in 0..@league.players_per_team-1 %>
-          <tr>
-            <% player = @team.players[index] %>
-            <% if player %>
-              <td><%= player.name %>  (<%= player.country %>)</td>
-            <% else %>
-              <td></td>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
+    <table id="myteam" class="table table-hover table-bordered" style="width: 200px;">
+      <%= render 'team' %>
     </table>
+    
   </div>
   
 </div>

@@ -22,7 +22,8 @@ ready = ->
           clearInterval(timer)
           if @current_team() == $("#team_name").text() # if this team won the player
             data = { player: @current_player(), team: @current_team() }
-            $.post("/leagues/#{league_id}/draft/buyplayer", data)
+            $.post("/leagues/#{league_id}/draft/buyplayer", data, @get_team)
+            
           
       ), this
       
@@ -33,7 +34,10 @@ ready = ->
           true
       ), this
     
-  
+    get_team: ->
+      $("#myteam").load("/leagues/#{league_id}/draft/myteam")
+      client.publish("/draft#{league_id}", { type: "reload players" })
+    
   viewModel = new DraftViewModel()
   ko.applyBindings(viewModel)
   
@@ -58,6 +62,11 @@ ready = ->
       viewModel.seconds(message.seconds)
       clearInterval(timer)
       timer = setInterval ( -> viewModel.seconds(viewModel.seconds() - 1)), 1000
+    
+    else if message.type == 'reload players'
+      console.log(message)
+      $("#available").load("/leagues/#{league_id}/draft/available")
+      
   )
 
   $("a.nominate").click( (event) ->

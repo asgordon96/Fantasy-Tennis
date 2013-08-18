@@ -1,0 +1,12 @@
+<tbody>
+  <% for index in 0..@league.players_per_team-1 %>
+    <tr>
+      <% player = @team.players[index] %>
+      <% if player %>
+        <td><%= player.name %>  (<%= player.country %>)</td>
+      <% else %>
+        <td></td>
+      <% end %>
+    </tr>
+  <% end %>
+</tbody>

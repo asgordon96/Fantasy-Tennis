@@ -11,6 +11,8 @@ FantasyTennis::Application.routes.draw do
     resource :draft, :only => :show do
       collection do
         post 'buyplayer'
+        get 'myteam'
+        get 'available'
       end
     end
   end
