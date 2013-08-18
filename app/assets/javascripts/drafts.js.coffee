@@ -20,7 +20,19 @@ ready = ->
       @timer_end = ko.computed ( ->
         if @seconds() == 0
           clearInterval(timer)
+          if @current_team() == $("#team_name").text() # if this team won the player
+            data = { player: @current_player(), team: @current_team() }
+            $.post("/leagues/#{league_id}/draft/buyplayer", data)
+          
       ), this
+      
+      @can_bid = ko.computed ( ->
+        if @current_team() == $("#team_name").text()
+          false
+        else
+          true
+      ), this
+    
   
   viewModel = new DraftViewModel()
   ko.applyBindings(viewModel)
@@ -38,17 +50,19 @@ ready = ->
     if message.type == 'nominate'
       viewModel.current_player(message.player)
       viewModel.bid(1)
-      viewModel.current_team("to #{message.team}")
+      viewModel.current_team(message.team)
     else if message.type == 'bid'
       viewModel.bid(message.bid)
-      viewModel.current_team("to #{message.team}")
+      viewModel.current_team(message.team)
     else if message.type == 'time'
       viewModel.seconds(message.seconds)
+      clearInterval(timer)
+      timer = setInterval ( -> viewModel.seconds(viewModel.seconds() - 1)), 1000
   )
 
   $("a.nominate").click( (event) ->
     event.preventDefault()
-    set_timer(10) # reset timer to 10 seconds
+    set_timer(10) # reset timer to 30 seconds
     playerRow = $(event.currentTarget).parent().siblings()
     playerData = 
       type:    'nominate'
@@ -62,11 +76,13 @@ ready = ->
   
   $("#bid").click( (event) ->
     event.preventDefault()
-    set_timer(10)
     
     input = $("input")
     if input[0].checkValidity()
       bid = input.val()
+      if viewModel.seconds() < 10
+        set_timer(10)
+        
       data = 
         type: 'bid'
         bid: bid

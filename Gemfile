@@ -35,6 +35,8 @@ gem 'turbolinks'
 
 gem "faye", "~> 0.8.9" # use faye for pub/sub messaging for live updating
 
+gem 'rufus-scheduler', :require => false # gem for daily updates
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
@@ -49,6 +51,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'reek', :require => false
   gem 'brakeman', :require => false
+  gem 'simplecov', :require => false
 end
 
 # Use ActiveModel has_secure_password

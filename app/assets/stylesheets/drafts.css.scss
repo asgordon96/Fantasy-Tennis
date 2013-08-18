@@ -19,3 +19,8 @@ div.timer {
 .timer_low {
   color: red;
 }
+
+li.selected {
+  list-style-position: inside;
+  border: 1px solid black;
+}

@@ -4,6 +4,12 @@ class DraftsController < ApplicationController
   
   def show
     @available = @league.available_players
+    @draft_order = @league.teams.shuffle
+  end
+  
+  def buyplayer
+    @team.add_player_by_name(params[:player])
+    render :json => {}
   end
   
   def require_team
