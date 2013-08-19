@@ -14,6 +14,11 @@ ready = ->
       @current_team = ko.observable("No Team")
       @start_bid = ko.computed ( -> parseInt(@bid()) + 1), this
       
+      @money = ko.observable(200)
+      @money_format = ko.computed ( ->
+        "Remaining: $#{@money()}"
+      ), this
+      
       @seconds = ko.observable(10)
       @seconds_format = ko.computed ( -> "Time: #{@seconds()}"), this
       
@@ -21,6 +26,7 @@ ready = ->
         if @seconds() == 0
           clearInterval(timer)
           if @current_team() == $("#team_name").text() # if this team won the player
+            @money(@money() - @bid())
             data = { player: @current_player(), team: @current_team() }
             $.post("/leagues/#{league_id}/draft/buyplayer", data, @get_team)
             
@@ -64,7 +70,6 @@ ready = ->
       timer = setInterval ( -> viewModel.seconds(viewModel.seconds() - 1)), 1000
     
     else if message.type == 'reload players'
-      console.log(message)
       $("#available").load("/leagues/#{league_id}/draft/available")
       
   )
