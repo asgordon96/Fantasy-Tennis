@@ -28,9 +28,9 @@ describe Player do
     Player.get_rankings
     Player.get_ytd_points(100)
     nadal = Player.find_by_link_name("/Tennis/Players/Top-Players/Rafael-Nadal.aspx")
-    nadal.atp_points.should == 7010
+    nadal.atp_points.should == 9010
     robredo = Player.find_by_link_name("/Tennis/Players/Top-Players/Tommy-Robredo.aspx")
-    robredo.atp_points.should == 1315
+    robredo.atp_points.should == 1405
   end
     
   it "gets ytd ATP points for 101-200" do
@@ -38,7 +38,7 @@ describe Player do
       Player.get_ytd_points(100)
       Player.get_ytd_points(200)
       schepper = Player.find_by_link_name('/Tennis/Players/De/K/Kenny-De-Schepper.aspx')
-      schepper.atp_points.should == 456
+      schepper.atp_points.should == 468
   end
   
   it "has a country" do

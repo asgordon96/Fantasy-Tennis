@@ -5,6 +5,11 @@ class Team < ActiveRecord::Base
   
   validates :name, :presence => true
   
+  def self.teams_from_ids(id_string)
+    team_ids = id_string.split(',').map { |id| id.to_i }
+    Team.find(team_ids)
+  end
+  
   def add_points(points)
     self.total_points += points
     self.save

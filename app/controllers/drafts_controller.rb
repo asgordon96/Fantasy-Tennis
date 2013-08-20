@@ -4,7 +4,9 @@ class DraftsController < ApplicationController
   
   def show
     @available = @league.available_players
-    @draft_order = @league.teams.shuffle
+    order = @league.draft.order
+    @league.get_draft_order
+    @draft_order = Team.teams_from_ids(@league.draft.order)
   end
   
   def buyplayer

@@ -1,5 +1,9 @@
 class League < ActiveRecord::Base
   has_many :teams
+  has_one :draft, :dependent => :destroy
+  
+  after_create :create_draft
+  
   validates :name, :presence => true, :uniqueness => true
   validate :future_draft_date
   
@@ -47,6 +51,24 @@ class League < ActiveRecord::Base
   
   def team_for_user(user)
     Team.where(:user_id => user.id, :league_id => self.id).first
+  end
+  
+  def get_draft_order
+    Draft.transaction do
+      draft = self.draft
+      draft.lock!
+      unless draft.order
+        order = self.teams.ids.join(',')
+        self.draft.order = order
+        self.draft.save
+      end
+    end
+  end
+    
+  def create_draft
+    draft = Draft.new
+    self.draft = draft
+    draft.save
   end
     
 end
