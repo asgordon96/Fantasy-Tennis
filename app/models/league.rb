@@ -70,5 +70,5 @@ class League < ActiveRecord::Base
     self.draft = draft
     draft.save
   end
-    
+  
 end

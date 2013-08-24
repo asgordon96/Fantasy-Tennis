@@ -25,4 +25,13 @@ class Team < ActiveRecord::Base
       self.players << new_player
     end
   end
+  
+  def get_place
+    standings = self.league.teams.order("total_points DESC").pluck(:total_points)
+    place = standings.index(self.total_points) + 1
+    tied = standings[place] == self.total_points
+    tied_text = tied ? "Tied " : ""
+    "#{tied_text}#{place.ordinalize} Place"
+  end
+  
 end

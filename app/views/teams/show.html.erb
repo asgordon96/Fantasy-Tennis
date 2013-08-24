@@ -4,7 +4,7 @@
   <div>
     <h1><%= @team.name %></h1>
     <h3><%= @team.league.name %></h3>
-    <h4>4th Place</h4>
+    <h4><%= @team.get_place %></h4>
     <h4><%= @team.total_points %> Points</h4>
   </div>
   

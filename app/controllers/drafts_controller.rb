@@ -6,6 +6,7 @@ class DraftsController < ApplicationController
     @available = @league.available_players
     order = @league.draft.order
     @league.get_draft_order
+    @draft = @league.draft
     @draft_order = Team.teams_from_ids(@league.draft.order)
   end
   

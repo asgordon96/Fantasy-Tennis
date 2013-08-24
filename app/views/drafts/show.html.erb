@@ -64,5 +64,12 @@
     </table>
     
   </div>
-  
 </div>
+
+<script type="text/javascript">
+  $(function() {
+    viewModel.current_player("<%= @draft.player %>")
+    viewModel.bid("<%= @draft.bid %>")
+    viewModel.current_team("<%= @draft.current_team.name %>")
+  });
+</script>

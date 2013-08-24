@@ -2,9 +2,8 @@ ready = ->
   
   # setup the faye javascript client
   window.league_id = document.URL.split("/")[4]
-  console.log(league_id)
   client = new Faye.Client('/faye')
-  
+
   # the knockoutjs view model
   class DraftViewModel
     constructor: ->
@@ -18,6 +17,11 @@ ready = ->
       @money_format = ko.computed ( ->
         "Remaining: $#{@money()}"
       ), this
+      @get_remaining()
+      
+      @set_remaining = ko.computed ( ->
+        localStorage["money_left"] = @money() 
+      ), this
       
       @seconds = ko.observable(10)
       @seconds_format = ko.computed ( -> "Time: #{@seconds()}"), this
@@ -30,7 +34,6 @@ ready = ->
             data = { player: @current_player(), team: @current_team() }
             $.post("/leagues/#{league_id}/draft/buyplayer", data, @get_team)
             
-          
       ), this
       
       @can_bid = ko.computed ( ->
@@ -42,15 +45,25 @@ ready = ->
     
     get_team: ->
       $("#myteam").load("/leagues/#{league_id}/draft/myteam")
-      client.publish("/draft#{league_id}", { type: "reload players" })
+      client.publish("/draft#{league_id}", { id: league_id, type: "reload players" })
     
-  viewModel = new DraftViewModel()
+    # get remaining money fro local storage
+    get_remaining: -> 
+      if (localStorage["money_left"])
+        @money(localStorage["money_left"])
+      else
+        @money(200)
+        localStorage["money_left"] = 200
+      
+    
+  window.viewModel = new DraftViewModel()
   ko.applyBindings(viewModel)
   
   timer = setInterval ( -> viewModel.seconds(viewModel.seconds() - 1) ), 1000
   
   set_timer = (sec) ->
     message = 
+      id: league_id
       type: 'time'
       seconds: sec
       
@@ -79,6 +92,7 @@ ready = ->
     set_timer(10) # reset timer to 30 seconds
     playerRow = $(event.currentTarget).parent().siblings()
     playerData = 
+      id: league_id
       type:    'nominate'
       player:  $(playerRow[0]).children().text()
       country: playerRow[1].innerHTML
@@ -98,6 +112,7 @@ ready = ->
         set_timer(10)
         
       data = 
+        id: league_id
         type: 'bid'
         bid: bid
         team: $("#team_name").text()
