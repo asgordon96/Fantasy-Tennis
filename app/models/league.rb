@@ -60,6 +60,7 @@ class League < ActiveRecord::Base
       unless draft.order
         order = self.teams.ids.join(',')
         self.draft.order = order
+        self.draft.nominator = Team.find(order[0])
         self.draft.save
       end
     end

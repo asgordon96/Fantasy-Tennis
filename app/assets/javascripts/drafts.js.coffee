@@ -12,6 +12,7 @@ ready = ->
       @current_bid = ko.computed (-> "$#{@bid()}"), this
       @current_team = ko.observable("No Team")
       @start_bid = ko.computed ( -> parseInt(@bid()) + 1), this
+      @nominator = ko.observable("")
       
       @money = ko.observable(200)
       @money_format = ko.computed ( ->
@@ -33,6 +34,7 @@ ready = ->
             @money(@money() - @bid())
             data = { player: @current_player(), team: @current_team() }
             $.post("/leagues/#{league_id}/draft/buyplayer", data, @get_team)
+            @seconds(30)
             
       ), this
       
@@ -83,11 +85,24 @@ ready = ->
       timer = setInterval ( -> viewModel.seconds(viewModel.seconds() - 1)), 1000
     
     else if message.type == 'reload players'
-      $("#available").load("/leagues/#{league_id}/draft/available")
-      
+      $("#available").load("/leagues/#{league_id}/draft/available", ->
+        console.log($("a.nominate"))
+        console.log("HERE")
+        if $("#team_name").text() != viewModel.nominator()
+          $("a.nominate").hide()
+        else
+          $("a.nominate").show()  
+      )
+      viewModel.current_player("Waiting for nomination...")
+      viewModel.current_team("")
+      viewModel.bid(0)
+    
+    else if message.type == 'nominator'
+      console.log(message)
+      viewModel.nominator(message.team)
   )
-
-  $("a.nominate").click( (event) ->
+  
+  $(document).on('click', 'a.nominate', (event) ->
     event.preventDefault()
     set_timer(10) # reset timer to 30 seconds
     playerRow = $(event.currentTarget).parent().siblings()
@@ -98,7 +113,7 @@ ready = ->
       country: playerRow[1].innerHTML
       rank:    playerRow[2].innerHTML
       team:    $("#team_name").text()
-      
+  
     client.publish("/draft#{window.league_id}", playerData)
   )
   
