@@ -3,7 +3,15 @@ ready = ->
   # setup the faye javascript client
   window.league_id = document.URL.split("/")[4]
   client = new Faye.Client('/faye')
-
+  
+  set_timer = (sec) ->
+    message = 
+      id: league_id
+      type: 'time'
+      seconds: sec
+      
+    client.publish("/draft#{league_id}", message)
+  
   # the knockoutjs view model
   class DraftViewModel
     constructor: ->
@@ -34,7 +42,7 @@ ready = ->
             @money(@money() - @bid())
             data = { player: @current_player(), team: @current_team() }
             $.post("/leagues/#{league_id}/draft/buyplayer", data, @get_team)
-            @seconds(30)
+            set_timer(30)
             
       ), this
       
@@ -56,20 +64,20 @@ ready = ->
       else
         @money(200)
         localStorage["money_left"] = 200
+        
+    hide_nominate: =>
+      console.log("HERE")
+      console.log(@nominator())
+      if $("#team_name").text() != @nominator()
+        $("a.nominate").hide()
+      else
+        $("a.nominate").show()
       
     
   window.viewModel = new DraftViewModel()
   ko.applyBindings(viewModel)
   
   timer = setInterval ( -> viewModel.seconds(viewModel.seconds() - 1) ), 1000
-  
-  set_timer = (sec) ->
-    message = 
-      id: league_id
-      type: 'time'
-      seconds: sec
-      
-    client.publish("/draft#{league_id}", message)
   
   client.subscribe("/draft#{league_id}", (message) -> 
     if message.type == 'nominate'
@@ -85,14 +93,7 @@ ready = ->
       timer = setInterval ( -> viewModel.seconds(viewModel.seconds() - 1)), 1000
     
     else if message.type == 'reload players'
-      $("#available").load("/leagues/#{league_id}/draft/available", ->
-        console.log($("a.nominate"))
-        console.log("HERE")
-        if $("#team_name").text() != viewModel.nominator()
-          $("a.nominate").hide()
-        else
-          $("a.nominate").show()  
-      )
+      $("#available").load("/leagues/#{league_id}/draft/available", viewModel.hide_nominate)
       viewModel.current_player("Waiting for nomination...")
       viewModel.current_team("")
       viewModel.bid(0)

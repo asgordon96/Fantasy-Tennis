@@ -12,6 +12,9 @@ class DraftsController < ApplicationController
   
   def buyplayer
     @team.add_player_by_name(params[:player])
+    @league.draft.player = "Waiting for nomination..."
+    @league.draft.bid = 0
+    @league.draft.save!
     render :json => {}
   end
   

@@ -6,7 +6,6 @@ module FayeClient
       client = Faye::Client.new('http://localhost:3000/faye')
       client.subscribe("/*") do |message|
         league_id = message["id"]
-        puts "Incoming Id: #{league_id.inspect}"
         league = League.find(league_id)
         draft = league.draft
         if message["type"] == "nominate"
@@ -23,9 +22,7 @@ module FayeClient
         
         elsif message["type"] == "reload players"
           next_team = draft.get_next_nominator
-          puts next_team.inspect
-          puts league_id
-          puts next_team.name
+          draft.save!
           client.publish("/draft#{league_id}", {:id => league_id, :type => 'nominator', :team => next_team.name})
         end
       end
