@@ -13,6 +13,7 @@ FantasyTennis::Application.routes.draw do
         post 'buyplayer'
         get 'myteam'
         get 'available'
+        get 'nominator'
       end
     end
   end

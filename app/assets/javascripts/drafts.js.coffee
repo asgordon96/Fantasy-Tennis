@@ -93,7 +93,13 @@ ready = ->
       timer = setInterval ( -> viewModel.seconds(viewModel.seconds() - 1)), 1000
     
     else if message.type == 'reload players'
-      $("#available").load("/leagues/#{league_id}/draft/available", viewModel.hide_nominate)
+      $("#available").load("/leagues/#{league_id}/draft/available", ->
+        $.get("/leagues/#{league_id}/draft/nominator", (data) ->
+          console.log(data)
+          viewModel.nominator(data.nominator)
+          viewModel.hide_nominate()
+        )
+      )
       viewModel.current_player("Waiting for nomination...")
       viewModel.current_team("")
       viewModel.bid(0)

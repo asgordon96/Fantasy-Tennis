@@ -12,9 +12,11 @@ class DraftsController < ApplicationController
   
   def buyplayer
     @team.add_player_by_name(params[:player])
-    @league.draft.player = "Waiting for nomination..."
-    @league.draft.bid = 0
-    @league.draft.save!
+    @draft.player = "Waiting for nomination..."
+    @draft.get_next_nominator
+    @draft.bid = 0
+    @draft.save!
+    puts @draft.inspect
     render :json => {}
   end
   
@@ -27,8 +29,13 @@ class DraftsController < ApplicationController
     render :partial => 'available'
   end
   
+  def nominator
+    render :json => {:nominator => @league.draft.nominator.name}
+  end
+  
   def require_team
     @league = League.find(params[:league_id])
+    @draft = @league.draft
     @team = @league.team_for_user(@user)
     if not @team
       raise ActionController::RoutingError, "Not Found"

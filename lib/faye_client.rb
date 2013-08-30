@@ -19,11 +19,6 @@ module FayeClient
           draft.current_team = league.teams.find_by_name(message["team"])
           draft.save
           puts "Current Bid: #{draft.bid} by #{draft.current_team.name}"
-        
-        elsif message["type"] == "reload players"
-          next_team = draft.get_next_nominator
-          draft.save!
-          client.publish("/draft#{league_id}", {:id => league_id, :type => 'nominator', :team => next_team.name})
         end
       end
     end
