@@ -38,6 +38,9 @@ ready = ->
       @timer_end = ko.computed ( ->
         if @seconds() == 0
           clearInterval(timer)
+          if @bid() == 0 # ran out of nomination time
+            $("a.nominate").first().trigger("click")
+          
           if @current_team() == $("#team_name").text() # if this team won the player
             @money(@money() - @bid())
             data = { player: @current_player(), team: @current_team() }

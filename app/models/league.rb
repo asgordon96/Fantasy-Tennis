@@ -2,7 +2,7 @@ class League < ActiveRecord::Base
   has_many :teams
   has_one :draft, :dependent => :destroy
   
-  after_create :create_draft
+  after_create :create_draft, :on => :create
   
   validates :name, :presence => true, :uniqueness => true
   validate :future_draft_date
