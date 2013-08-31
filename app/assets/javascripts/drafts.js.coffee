@@ -68,7 +68,7 @@ ready = ->
     hide_nominate: =>
       console.log("HERE")
       console.log(@nominator())
-      if $("#team_name").text() != @nominator()
+      if $("#team_name").text() != @nominator() or @bid() > 0 # we're not nominating, or biddin is in progress
         $("a.nominate").hide()
       else
         $("a.nominate").show()
@@ -122,6 +122,8 @@ ready = ->
       team:    $("#team_name").text()
   
     client.publish("/draft#{window.league_id}", playerData)
+    viewModel.nominator("")
+    viewModel.hide_nominate()
   )
   
   $("#bid").click( (event) ->

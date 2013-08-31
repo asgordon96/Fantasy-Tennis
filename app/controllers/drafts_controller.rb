@@ -15,6 +15,7 @@ class DraftsController < ApplicationController
     @draft.player = "Waiting for nomination..."
     @draft.get_next_nominator
     @draft.bid = 0
+    @draft.current_team = nil
     @draft.save!
     puts @draft.inspect
     render :json => {}
@@ -30,7 +31,12 @@ class DraftsController < ApplicationController
   end
   
   def nominator
-    render :json => {:nominator => @league.draft.nominator.name}
+    nom = @league.draft.nominator
+    if nom
+      render :json => {:nominator => @league.draft.nominator.name}
+    else
+      render :json => {:nominator => ""} # this won't match any team name
+    end
   end
   
   def require_team

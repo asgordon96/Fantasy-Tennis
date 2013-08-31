@@ -70,8 +70,8 @@
   $(function() {
     viewModel.current_player("<%= @draft.player %>");
     viewModel.bid("<%= @draft.bid %>");
-    viewModel.current_team("<%= @draft.current_team.name %>");
-    viewModel.nominator("<%= @draft.nominator.name %>");
+    viewModel.current_team("<%= current_team_name(@draft) %>");
+    viewModel.nominator("<%= current_nominator(@draft) %>");
     viewModel.hide_nominate();
   });
 </script>
