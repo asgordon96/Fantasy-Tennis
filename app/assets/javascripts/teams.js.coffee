@@ -11,10 +11,12 @@ ready = ->
   $(document).on("click", ".drop", (event) ->
     event.preventDefault()
     player_id = event.target.id
-    console.log(player_id)
+    url = location.href + "/drop"
+    data = { player_id: player_id }
+    $.post(url, data)
+    
     $(event.target).parent().parent().remove()
   )
   
-  
 $(ready)
-$(document).addEventListener("page:load", ready)
+document.addEventListener("page:load", ready)

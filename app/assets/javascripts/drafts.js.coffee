@@ -149,4 +149,5 @@ ready = ->
       alert("Cannot bid lower than current bid")
   )
 
-$ -> ready()
+$(ready)
+document.addEventListener("page:load", ready)

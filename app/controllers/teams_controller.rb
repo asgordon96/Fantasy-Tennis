@@ -29,6 +29,14 @@ class TeamsController < ApplicationController
     end
   end
   
+  # ajax call to drop a player
+  def drop
+    @team = Team.find(params[:id])
+    player = Player.find(params[:player_id])
+    @team.players.destroy(player)
+    render :json => {}
+  end
+  
   def update
   end
   
