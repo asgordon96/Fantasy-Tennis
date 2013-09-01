@@ -2,10 +2,10 @@ class League < ActiveRecord::Base
   has_many :teams
   has_one :draft, :dependent => :destroy
   
-  after_create :create_draft, :on => :create
+  after_create :create_draft
   
   validates :name, :presence => true, :uniqueness => true
-  validate :future_draft_date
+  validate :future_draft_date, :on => :create
   
   def set_draft_time(date, time)
     self.draft_time = "#{date} #{time}"
@@ -70,6 +70,15 @@ class League < ActiveRecord::Base
     draft = Draft.new
     self.draft = draft
     draft.save
+  end
+  
+  def teams_full?
+    self.teams.each do |team|
+      if team.players.length != self.players_per_team
+        return false
+      end
+    end
+    return true
   end
   
 end

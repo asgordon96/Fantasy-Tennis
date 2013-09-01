@@ -13,8 +13,8 @@
   </div>
   
   <div>
-    <%= link_to "Add Player", "", :class => "btn btn-success" %>
-    <%= link_to "Drop Player", "", :class => "btn btn-danger"%>
+    <%= link_to "Add Players", "", :class => "btn btn-success" %>
+    <%= link_to "Drop Players", "", :class => "btn btn-danger", :id => "dropbutton" %>
   </div>
   
   <div>
@@ -31,6 +31,7 @@
             <td><%= player.rank %></td>
             <td><%= player.atp_points %></td>
             <td><%= player.wins %> - <%= player.losses %></td>
+            <td class="drop" style="display: none;"><%= link_to "Drop", "", :class => "btn btn-danger btn-small", :id => player.id %></td>
           </tr>
         <% end %>
       

@@ -14,7 +14,10 @@
   <% if !@league.has_user?(current_user) %>
     <a href="#joinModal" class="btn btn-primary" data-toggle="modal">Join this League</a>
   <% else %>
-  <%= link_to "My Team", league_team_path(@league, @league.has_user?(current_user)), :class => "btn btn-primary"%>
+    <% if Time.now > @league.draft_time %>
+      <p><%= link_to "Begin Draft", league_draft_path(@league), :class => "btn btn-primary btn-large" %></p>
+    <% end %>
+    <%= link_to "My Team", league_team_path(@league, @league.has_user?(current_user)), :class => "btn btn-primary"%>
   <% end %>
   </div>
   
