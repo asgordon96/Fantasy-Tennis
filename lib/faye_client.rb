@@ -18,7 +18,7 @@ module FayeClient
           draft.bid = message["bid"]
           draft.current_team = league.teams.find_by_name(message["team"])
           draft.save
-          puts "Current Bid: #{draft.bid} by #{draft.current_team.name}"
+          Rails.logger.info "Current Bid: #{draft.bid} by #{draft.current_team.name}"
         end
       end
     end

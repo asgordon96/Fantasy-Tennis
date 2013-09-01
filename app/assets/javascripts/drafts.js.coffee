@@ -146,7 +146,7 @@ ready = ->
       
       client.publish("/draft#{league_id}", data)
     else
-      alert("Cannot bid lower than current bid")
+      apprise("Invalid Bid. Cannot bid lower than current bid or higher than amount of money left")
   )
 
 $(ready)

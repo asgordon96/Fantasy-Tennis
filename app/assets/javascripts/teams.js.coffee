@@ -8,15 +8,19 @@ ready = ->
     else
       btn.text("Done")
   
-  $(document).on("click", ".drop", (event) ->
+  $(".drop").click (event) ->
     event.preventDefault()
-    player_id = event.target.id
-    url = location.href + "/drop"
-    data = { player_id: player_id }
-    $.post(url, data)
+    console.log("Here")
+    apprise('Are you sure you want to drop this player?', {'verify': true}, (confirm) ->
+      if confirm
+        player_id = event.target.id
+        url = location.href + "/drop"
+        data = { player_id: player_id }
+        $.post(url, data)
     
-    $(event.target).parent().parent().remove()
-  )
+        $(event.target).parent().parent().remove()
+    )
+  
   
 $(ready)
 document.addEventListener("page:load", ready)

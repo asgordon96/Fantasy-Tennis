@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-modal
+//= require apprise-1.5.min.js
 //= require_tree .
