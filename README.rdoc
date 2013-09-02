@@ -1,3 +1,9 @@
-== README
-A fantasy tennis web application for the ATP tour.
+== Fantasy Tennis
+{<img src="https://codeclimate.com/github/asgordon96/Fanatsy-Tennis.png" />}[https://codeclimate.com/github/asgordon96/Fanatsy-Tennis]
+
+A fantasy tennis web application for the ATP world tour.
+Draft a team of players in a live auction draft. Manage your team throughout the season, and compete for the top spot in you league.
+
+Still in very early development.
+
 Runs on Ruby 2.0 and Rails 4.0 with Postgresql.
