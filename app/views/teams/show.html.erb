@@ -13,29 +13,12 @@
   </div>
   
   <div>
-    <%= link_to "Add Players", "", :class => "btn btn-success" %>
+    <%= link_to "Add Players", available_league_path(@team.league), :class => "btn btn-success" %>
     <%= link_to "Drop Players", "", :class => "btn btn-danger", :id => "dropbutton" %>
   </div>
   
   <div>
     <h2>Players</h2>
-    <table class="table table-hover">
-      <thead>
-        <tr><th>Name</th><th>Country</th><th>Ranking</th><th>Year ATP Points</th><th>Win-Loss</th></tr>
-      </thead>
-      <tbody>
-        <% @players.each do |player| %>
-          <tr>
-            <td><%= link_to player.name, player.full_link, :target => "_blank" %></td>
-            <td><%= player.country %></td>
-            <td><%= player.rank %></td>
-            <td><%= player.atp_points %></td>
-            <td><%= player.wins %> - <%= player.losses %></td>
-            <td class="drop" style="display: none;"><%= link_to "Drop", "", :class => "btn btn-danger btn-small", :id => player.id %></td>
-          </tr>
-        <% end %>
-      
-    </table>
+    <%= render :partial => 'shared/players', :locals => { :players => @players } %>
   </div>
-  
 </div>

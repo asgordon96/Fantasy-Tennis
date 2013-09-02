@@ -1,0 +1,13 @@
+<%= render 'shared/navbar' %>
+
+<div class="middle">
+  <div style="padding: 0px">
+    <h1><%= @league.name %></h2>
+  </div>
+  
+  <div>
+    <h2>Players</h2>
+    <%= render :partial => 'shared/players', :locals => {:players => @available} %>
+  </div>
+  
+</div>

@@ -7,6 +7,11 @@ FantasyTennis::Application.routes.draw do
   resources :users, :only => [:new, :create, :update, :destroy, :show]
   
   resources :leagues, :only => [:new, :create, :index, :show, :destroy] do
+    member do
+      get 'available'
+      post 'add'
+    end
+    
     resources :teams, :only => [:show, :new, :create, :update, :destroy] do
       member do
         post 'drop'
