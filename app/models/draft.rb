@@ -6,12 +6,18 @@ class Draft < ActiveRecord::Base
   def get_next_nominator
     team_order = Team.teams_from_ids(self.order)
     index = team_order.index(self.nominator)
-    if index == team_order.length - 1
-      self.nominator = team_order[0]
-    else
-      self.nominator = team_order[index+1]
+    while true
+      if index == team_order.length - 1
+        index = 0
+      else
+        index += 1
+      end
+      team = team_order[index]
+      unless team.full?
+        self.nominator = team
+        return self.nominator
+      end
     end
-    self.nominator
   end
   
 end

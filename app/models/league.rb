@@ -68,13 +68,15 @@ class League < ActiveRecord::Base
     
   def create_draft
     draft = Draft.new
+    draft.completed = false
+    draft.bid = 0
     self.draft = draft
     draft.save
   end
   
   def teams_full?
     self.teams.each do |team|
-      if team.players.length != self.players_per_team
+      if not team.full?
         return false
       end
     end

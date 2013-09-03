@@ -7,6 +7,11 @@ class TeamsController < ApplicationController
   
   def show
     @team = Team.find(params[:id])
+    
+    if @team.user != @user
+      raise ActionController::RoutingError, "Page not found"
+    end
+    
     @players = @team.players.order("rank ASC")
   end
   

@@ -34,4 +34,8 @@ class Team < ActiveRecord::Base
     "#{tied_text}#{place.ordinalize} Place"
   end
   
+  def full?
+    self.players.length == self.league.players_per_team
+  end
+  
 end

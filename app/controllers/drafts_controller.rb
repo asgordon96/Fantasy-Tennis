@@ -13,11 +13,16 @@ class DraftsController < ApplicationController
   def buyplayer
     @team.add_player_by_name(params[:player])
     @draft.player = "Waiting for nomination..."
-    @draft.get_next_nominator
-    @draft.bid = 0
-    @draft.current_team = nil
+    
+    if @league.teams_full?
+      @draft.completed = true
+    else
+      @draft.get_next_nominator
+      @draft.bid = 0
+      @draft.current_team = nil
+    end
+    
     @draft.save!
-    puts @draft.inspect
     render :json => {}
   end
   

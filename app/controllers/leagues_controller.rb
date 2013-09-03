@@ -44,7 +44,7 @@ class LeaguesController < ApplicationController
     @league = League.find(params[:id])
     player = Player.find(params[:player_id])
     team = @league.team_for_user(@user)
-    if team.players.length == @league.players_per_team
+    if team.full?
       flash[:'alert-error'] = "Team already full. Cannot add more players."
       redirect_to available_league_path(@league)
     else
