@@ -13,8 +13,10 @@
   </div>
   
   <div>
-    <%= link_to "Add Players", available_league_path(@team.league), :class => "btn btn-success" %>
-    <%= link_to "Drop Players", "", :class => "btn btn-danger", :id => "dropbutton" %>
+    <% if @team.league.draft.completed %>
+      <%= link_to "Add Players", available_league_path(@team.league), :class => "btn btn-success" %>
+      <%= link_to "Drop Players", "", :class => "btn btn-danger", :id => "dropbutton" %>
+    <% end %>
   </div>
   
   <div>

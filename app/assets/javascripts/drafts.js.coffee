@@ -21,6 +21,7 @@ ready = ->
       @current_team = ko.observable("No Team")
       @start_bid = ko.computed ( -> parseInt(@bid()) + 1), this
       @nominator = ko.observable("")
+      @full = ko.observable(false)
       
       @money = ko.observable(200)
       @money_format = ko.computed ( ->
@@ -50,15 +51,21 @@ ready = ->
       ), this
       
       @can_bid = ko.computed ( ->
+        if @full()
+          return false
+          
         if @current_team() == $("#team_name").text()
           false
         else
           true
       ), this
     
-    get_team: ->
-      $("#myteam").load("/leagues/#{league_id}/draft/myteam")
-      client.publish("/draft#{league_id}", { id: league_id, type: "reload players" })
+    get_team: (data) ->
+      if data['full']
+        apprise("Your team is now complete")
+
+        $("#myteam").load("/leagues/#{league_id}/draft/myteam")
+        client.publish("/draft#{league_id}", { id: league_id, type: "reload players" })
     
     # get remaining money fro local storage
     get_remaining: -> 
@@ -114,7 +121,7 @@ ready = ->
   
   $(document).on('click', 'a.nominate', (event) ->
     event.preventDefault()
-    set_timer(10) # reset timer to 30 seconds
+    set_timer(30) # reset timer to 30 seconds
     playerRow = $(event.currentTarget).parent().siblings()
     playerData = 
       id: league_id

@@ -13,7 +13,6 @@ module FayeClient
           draft.bid = 1
           draft.current_team = league.teams.find_by_name(message["team"])
           draft.save
-          puts "Current Player: #{draft.player}"
         elsif message["type"] == "bid"
           draft.bid = message["bid"]
           draft.current_team = league.teams.find_by_name(message["team"])
