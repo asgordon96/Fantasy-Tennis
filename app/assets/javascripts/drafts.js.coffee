@@ -33,7 +33,7 @@ ready = ->
         localStorage["money_left"] = @money() 
       ), this
       
-      @seconds = ko.observable(10)
+      @seconds = ko.observable(30)
       @seconds_format = ko.computed ( -> "Time: #{@seconds()}"), this
       
       @timer_end = ko.computed ( ->
@@ -64,8 +64,8 @@ ready = ->
       if data['full']
         apprise("Your team is now complete")
 
-        $("#myteam").load("/leagues/#{league_id}/draft/myteam")
-        client.publish("/draft#{league_id}", { id: league_id, type: "reload players" })
+      $("#myteam").load("/leagues/#{league_id}/draft/myteam")
+      client.publish("/draft#{league_id}", { id: league_id, type: "reload players" })
     
     # get remaining money fro local storage
     get_remaining: -> 

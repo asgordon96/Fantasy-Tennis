@@ -15,22 +15,23 @@ class DraftsController < ApplicationController
     @draft.player = "Waiting for nomination..."
     
     if @team.full?
-      @draft.get_next_nominator
+      if @league.teams_full?
+        @draft.completed = true
+      else
+        @draft.get_next_nominator
+      end
+
       @draft.bid = 0
       @draft.current_team = nil
       @draft.player = "Waiting for nomination..."
       @draft.save!
+      
       render :json => {:full => true} and return
     end
-    
-    if @league.teams_full?
-      @draft.completed = true
-    else
-      @draft.get_next_nominator
-      @draft.bid = 0
-      @draft.current_team = nil
-    end
-    
+
+    @draft.get_next_nominator
+    @draft.bid = 0
+    @draft.current_team = nil
     @draft.save!
     render :json => {}
   end
