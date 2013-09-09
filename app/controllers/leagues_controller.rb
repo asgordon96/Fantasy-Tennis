@@ -14,9 +14,10 @@ class LeaguesController < ApplicationController
     
     league.assign_attributes(params[:league])
     league.set_draft_time(day, time)
-
+    
     begin
       league.save!
+      redirect_to league_path(league)
     rescue => error
       flash[:"alert-error"] = error.message
       redirect_to new_league_path

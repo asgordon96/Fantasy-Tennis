@@ -58,9 +58,10 @@ class League < ActiveRecord::Base
       draft = self.draft
       draft.lock!
       unless draft.order
-        order = self.teams.ids.join(',')
+        team_ids = self.teams.ids
+        order = team_ids.join(',')
         self.draft.order = order
-        self.draft.nominator = Team.find(order[0])
+        self.draft.nominator = Team.find(team_ids[0])
         self.draft.save
       end
     end
