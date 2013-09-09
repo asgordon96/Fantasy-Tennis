@@ -63,7 +63,7 @@ class Player < ActiveRecord::Base
     data.each do |row|
       player = Player.find_by_link_name(row[0])
       if player
-        player.atp_points = row[1]
+        player.update_atp_points(row[1])
         player.save
       end
     end
