@@ -24,6 +24,7 @@ class TeamsController < ApplicationController
     if league.team_name_available?(new_team.name)
       new_team.league = league
       new_team.user = @user
+      new_team.total_points = 0
       league.save
       new_team.save
     
