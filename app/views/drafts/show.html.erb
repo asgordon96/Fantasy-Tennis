@@ -67,11 +67,13 @@
 </div>
 
 <script type="text/javascript">
-  $(function() {
+  function ready() {
     viewModel.current_player("<%= @draft.player %>");
     viewModel.bid("<%= @draft.bid %>");
     viewModel.current_team("<%= current_team_name(@draft) %>");
     viewModel.nominator("<%= current_nominator(@draft) %>");
     viewModel.hide_nominate();
-  });
+  }
+  
+  $(ready);
 </script>

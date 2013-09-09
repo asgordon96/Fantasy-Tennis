@@ -15,7 +15,7 @@
     <a href="#joinModal" class="btn btn-primary" data-toggle="modal">Join this League</a>
   <% else %>
     <% if Time.now > @league.draft_time and not @league.draft.completed %>
-      <p><%= link_to "Begin Draft", league_draft_path(@league), :class => "btn btn-primary btn-large" %></p>
+      <p><%= link_to "Begin Draft", league_draft_path(@league), :class => "btn btn-primary btn-large", "data-no-turbolink" => "true" %></p>
     <% end %>
     <%= link_to "My Team", league_team_path(@league, @league.has_user?(current_user)), :class => "btn btn-primary"%>
   <% end %>
