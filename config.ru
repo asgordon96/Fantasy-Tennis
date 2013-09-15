@@ -2,7 +2,7 @@
 
 require 'faye'
 require ::File.expand_path('../config/environment',  __FILE__)
-
+use Rack::Deflater
 use Faye::RackAdapter, :mount => '/faye',
                        :timeout => 60
 

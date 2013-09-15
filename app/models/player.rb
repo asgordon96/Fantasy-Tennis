@@ -147,6 +147,7 @@ class Player < ActiveRecord::Base
   def update_atp_points(points)
     old_points = self.atp_points
     diff = points - old_points
+    puts "Points diff for #{self.name}: #{diff}"
     self.atp_points = points
     self.save
     self.teams.each do |team|
