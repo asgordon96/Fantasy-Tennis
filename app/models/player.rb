@@ -80,6 +80,7 @@ class Player < ActiveRecord::Base
       new_player = Player.new
       new_player.link_name = link["href"]
       new_player.country = player_countries[index]
+      new_player.atp_points = 0
       new_player.save
       new_player
     end
@@ -109,6 +110,7 @@ class Player < ActiveRecord::Base
         new_player = Player.new
         new_player.link_name = link
         new_player.country = player_countries[index]
+        new_player.atp_points = 0
         new_player.save
       end
     end
