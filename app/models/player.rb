@@ -147,6 +147,12 @@ class Player < ActiveRecord::Base
   
   # get the ATP points and add the total to teams
   def update_atp_points(points)
+    if points == 0
+      self.atp_points = 0
+      self.save
+      return
+    end
+    
     old_points = self.atp_points
     diff = points - old_points
     puts "Points diff for #{self.name}: #{diff}"
